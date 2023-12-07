@@ -9,12 +9,13 @@ const HeroCarousel = () => {
   const [images , setImages] = useState([]);
   useEffect(()=>{
     axios.get(`/discover/tv?api_key=${API_KEY}&with_networks=213`).then((response)=>{
-      setImages(response.data.results[2]);
+      setImages(response.data.results);
     })
   })
 
 
   const settingsLg = {
+      dots:true,
       arrows: true,
       infinite: true,
       speed: 500,
@@ -28,11 +29,12 @@ const HeroCarousel = () => {
     };
 
    const settings = {
+      dots:true,
       arrows: true,
       infinite: true,
       speed: 500,
       slidesToShow: 1,
-      slidesToScroll: 4,
+      slidesToScroll: 1,
       autoplay : true,
       autoplaySpeed : 2000,
       cssEase : "linear",
@@ -44,23 +46,24 @@ const HeroCarousel = () => {
     <div className='lg:hidden'>
       <HeroSlider {...settings}>
         {
-            
-            <div className='w-full h-56 md:h-80 py-3 '>
-              <img src={`${imageUrl+images.backdrop_path}`} alt="Hero Banner" className='w-full h-full rounded-md object-cover' />
+            images.map((image , index)=>(
+            <div className='w-full h-56 md:h-80 py-3 ' key={index}>
+              <img src={`${imageUrl+image.backdrop_path}`} alt="Hero Banner" className='w-full h-full rounded-md object-cover' />
             </div>
          
-        }
+       )) }
       </HeroSlider>
     </div>
     <div className='hidden lg:block'>
       <HeroSlider {...settingsLg}>
         {
-            
-            <div className='w-full h-96 px-2 py-2 '>
-              <img src={`${imageUrl+images.backdrop_path}`} alt="Hero Banner" className='w-full h-full rounded-md object-cover' />
+            images.map((image , index)=>(
+            <div className='w-full h-96 px-2 py-2' key={index}>
+              <img src={`${imageUrl+image.backdrop_path}`} alt="Hero Banner" className='w-full h-full rounded-md object-cover' />
+              
             </div>
-         
-        }
+)
+        )} 
       </HeroSlider>
     </div>
   </>
